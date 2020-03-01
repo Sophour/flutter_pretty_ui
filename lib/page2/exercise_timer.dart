@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+//TODO dispose of animator's Tickers
 class ExerciseTimer extends StatefulWidget {
   final bool counting;
   final Duration duration;
@@ -33,7 +34,7 @@ class _ExerciseTimerState extends State<ExerciseTimer> with TickerProviderStateM
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 120),
+      duration: Duration(seconds:320),
     );
 
 
@@ -41,7 +42,7 @@ class _ExerciseTimerState extends State<ExerciseTimer> with TickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    print('Timer is rebuit');
+    //print('Timer's been rebuilt');
     setupCountdownTimer();
 
     return Container(
@@ -64,8 +65,8 @@ class _ExerciseTimerState extends State<ExerciseTimer> with TickerProviderStateM
                         return new CustomPaint(
                           painter: TimerPainter(
                             animation: controller,
-                            color: Colors.pink,
-                            backgroundColor: Colors.grey[100],
+                            color: Colors.white,
+                            backgroundColor: Color.fromARGB(80, 255, 255, 255),
                           ),
                         );
                       },
@@ -73,7 +74,7 @@ class _ExerciseTimerState extends State<ExerciseTimer> with TickerProviderStateM
                   Align(
                     alignment: FractionalOffset.center,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         AnimatedBuilder(
@@ -81,13 +82,13 @@ class _ExerciseTimerState extends State<ExerciseTimer> with TickerProviderStateM
                             builder: (BuildContext context, Widget child) {
                               return Text(
                                 timerString,
-                                style: TextStyle(color: Colors.white),
+                                style: Theme.of(context).textTheme.display2,
                               );
                             }),
-                        Text(
-                          "day 1",
-                          style: TextStyle(color: Colors.white),
-                        ),
+                        Container(
+                          padding: EdgeInsets.only(top: 10.0),
+                          child: Text("day 1", style: Theme.of(context).textTheme.button,
+                        ),),
                       ],
                     ),
                   ),
@@ -96,51 +97,17 @@ class _ExerciseTimerState extends State<ExerciseTimer> with TickerProviderStateM
               ),
             ),
           ),),
-            Container(
-              margin: EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  FloatingActionButton(
-                    child: AnimatedBuilder(
-                      animation: controller,
-                      builder: (BuildContext context, Widget child) {
-                        return Icon(controller.isAnimating
-                            ? Icons.pause
-                            : Icons.play_arrow);
-
-                        // Icon(isPlaying
-                        // ? Icons.pause
-                        // : Icons.play_arrow);
-                      },
-                    ),
-                    onPressed: () {
-                      // setState(() => isPlaying = !isPlaying);
-
-                      if (controller.isAnimating) {
-                        controller.stop(canceled: true);
-                      } else {
-                        controller.reverse(
-                            from: controller.value == 0.0
-                                ? 1.0
-                                : controller.value);
-                      }
-                    },
-                  )
-                ],
-              ),
-            )
           ]
     )));
   }
 
   setupCountdownTimer(){
-    if (counting) {
+    if (counting /*controller.isAnimating*/) {
       controller.stop(canceled: true);
       counting = false;
     } else {
       controller.reverse(
-        ///TODO set animation progress?
+        ///TODO set animation progress here
           from: controller.value == 0.0
               ? 1.0
               : controller.value);
@@ -152,9 +119,10 @@ class _ExerciseTimerState extends State<ExerciseTimer> with TickerProviderStateM
   setupCountdownTimer2(bool isCounting) =>
    setState(() {counting = isCounting;});
 
+  //TODO make it not the countdown
   String get timerString {
     Duration duration = controller.duration * controller.value;
-    return '${duration.inMinutes}:${(duration.inSeconds % 60)
+    return '${(duration.inMinutes).toString().padLeft(2, '0')}:${(duration.inSeconds % 60)
         .toString().padLeft(2, '0')}';
   }
 }
@@ -173,7 +141,7 @@ class TimerPainter extends CustomPainter {
   void paint( Canvas canvas, Size size ) {
     Paint paint = Paint()
       ..color = backgroundColor
-      ..strokeWidth = 5.0
+      ..strokeWidth = 2.0
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 

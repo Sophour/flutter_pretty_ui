@@ -5,16 +5,12 @@ import 'package:meditivitytest2/services/background_audio_service/background_aud
 
 import 'exercise_timer.dart';
 
-
-
 class PlayerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlayerPageWidget();
   }
 }
-
-
 
 class PlayerPageWidget extends StatefulWidget {
   PlayerPageWidget({Key key, this.title}) : super(key: key);
@@ -25,10 +21,10 @@ class PlayerPageWidget extends StatefulWidget {
   _PlayerPageDefaultState createState() => _PlayerPageDefaultState();
 }
 
-class _PlayerPageDefaultState extends State<PlayerPageWidget> with WidgetsBindingObserver{
-
+class _PlayerPageDefaultState extends State<PlayerPageWidget>
+    with WidgetsBindingObserver {
   bool _settingsTabIsActive = false;
-  bool _audiotrackIsPaused = false;
+  bool _audioIsPlaying = false;
 
   bool counting = false;
   Duration duration;
@@ -36,12 +32,10 @@ class _PlayerPageDefaultState extends State<PlayerPageWidget> with WidgetsBindin
   Function myTimerCallback;
 
   @override
-  void initState( ) {
+  void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     connect();
-
-
   }
 
   @override
@@ -51,10 +45,16 @@ class _PlayerPageDefaultState extends State<PlayerPageWidget> with WidgetsBindin
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
 
+    AudioService.start(
+      backgroundTaskEntrypoint: audioPlayerTaskEntrypoint,
+      androidNotificationChannelName: 'Audio Service Demo',
+      notificationColor: 0xff413c69,
+      androidNotificationIcon: 'mipmap/ic_launcher',
+      enableQueue: true,
+    );
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -62,83 +62,85 @@ class _PlayerPageDefaultState extends State<PlayerPageWidget> with WidgetsBindin
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios, color: Color(0xffafb6bc)),
-    onPressed: () {
-    Navigator.pop(context);
-    },
-      ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.pause),
-              onPressed: (){
-                AudioService.pause();
-              },
-            ),
-            IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 30),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        actions: <Widget>[
+          IconButton(
+            //TODO setup custom icons
               icon: Icon(Icons.volume_up),
-              onPressed: (){
-                AudioService.start(
-                  backgroundTaskEntrypoint: audioPlayerTaskEntrypoint,
-                  androidNotificationChannelName: 'Audio Service Demo',
-                  notificationColor: 0xff413c69,
-                  androidNotificationIcon: 'mipmap/ic_launcher',
+              onPressed: () {
 
-                  enableQueue: true,
-                );
-              },
-
-            ),
-            IconButton(
-              icon: Icon(Icons.settings),
-            )
-          ],
+              }),
+          IconButton(icon: Icon(Icons.settings), onPressed: () {}),
+        ],
       ),
-
-
       body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage('https://www.nacional.hr/wp-content/uploads/2019/04/rain-3443977_1920.jpg'),
+              image: NetworkImage(
+                  'https://www.nacional.hr/wp-content/uploads/2019/04/rain-3443977_1920.jpg'),
               fit: BoxFit.fitHeight,
-
             ),
           ),
+          child: Column(
 
-          child:Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-
-            child: Text('Title Title'),
-          ),
-          Container(
-            child: SizedBox(
-            width: 230,
-            height: 230,
-              child: ExerciseTimer(
-                  counting: counting,
-                  duration: Duration(seconds: 120),
-                  timePassed: Duration(seconds: 0)
-              ),
-          ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              OutlineButton(
-                child: Text('Pause', style: TextStyle(color: Colors.white),),
-                onPressed: (){
+              Container(
+                margin: EdgeInsets.only(bottom:140, top: 150),
+                //height: 291,
+                child: Text(
+                  'Title Title',
+                  style: Theme.of(context).textTheme.display2,
+                ),
+              ),
+              Container(
+                child: SizedBox(
+                  width: 230,
+                  height: 230,
+                  child: ExerciseTimer(
+                      counting: counting,
+                      duration: Duration(seconds: 120),
+                      timePassed: Duration(seconds: 0)),
+                ),
+              ),
+              Container(
+                  margin: EdgeInsets.only(top:200),
 
-                },
-              )
+                  child:
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  OutlineButton(
+
+                    child: Container(
+                      width: 100,
+                      height: 42,
+                      alignment: Alignment.center,
+                      child: Text(
+                      'Pause',
+                      style: Theme.of(context).textTheme.button,
+                    ),),
+                   // highlightColor: Colors.white,
+                    //color: Colors.white,
+                   color: Colors.white ,
+                    borderSide: BorderSide(
+                      color: Colors.white,
+                      style: BorderStyle.solid,
+                    ),
+                    highlightColor: Colors.white,
+                    onPressed: () => AudioService.pause(),
+
+                  )
+                ],
+              ))
             ],
-          )
-        ],
-
-      )),
-
+          )),
     );
   }
 
@@ -157,3 +159,24 @@ class _PlayerPageDefaultState extends State<PlayerPageWidget> with WidgetsBindin
   }
 }
 
+Widget customIconButton(
+    double width, double height, Function onTapAction, imageUrl) {
+  return Container(
+      color: Colors.redAccent,
+      //margin: EdgeInsets.all(2.0),
+      child: GestureDetector(
+          onTap: onTapAction,
+          child: SizedBox(
+              height: height,
+              width: width,
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    alignment: Alignment.center,
+                    fit: BoxFit.scaleDown,
+                    //TODO doesn't display icons
+                    image: AssetImage(imageUrl),
+                  ),
+                ),
+              ))));
+}

@@ -31,6 +31,7 @@ ThemeData _theme(){
       button: ButtonTextStyle,
       headline: AppBarTextStyle,
       subhead: InfoTextStyle,
+      display2: Heading1TextStyle,
 
     ),
   );

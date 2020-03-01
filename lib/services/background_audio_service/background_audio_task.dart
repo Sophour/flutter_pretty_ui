@@ -6,46 +6,27 @@ import 'dart:async';
 import 'package:audio_service/audio_service.dart';
 import 'package:just_audio/just_audio.dart';
 
-
+//TODO move all redux pieces to separate files
 class AudioPlayerTask extends BackgroundAudioTask {
   final _queue = <MediaItem>[
     MediaItem(
-      id: "https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3",
-      album: "Science Friday",
-      title: "A Salute To Head-Scratching Science",
-      artist: "Science Friday and WNYC Studios",
+      id: "https://zvukipro.com/uploads/files/2019-08/1567011688_nature_forest.mp3",
+      album: "Autumn",
+      title: "Forest atmosphere",
+      artist: "Autumn",
       duration: 5739820,
       artUri:
-      "https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg",
+      "https://cdn.shopify.com/s/files/1/0276/4233/files/glorious_leaves_in_autumn_large.jpg",
     ),
     MediaItem(
-      id: "https://s3.amazonaws.com/scifri-segments/scifri201711241.mp3",
-      album: "Science Friday",
-      title: "From Cat Rheology To Operatic Incompetence",
-      artist: "Science Friday and WNYC Studios",
+      id: "https://zvukipro.com/uploads/files/2019-08/1567065079_ee07b7aaabd66d0.mp3",
+      album: "Nature",
+      title: "Gentle jingle",
+      artist: "Nature",
       duration: 2856950,
-      artUri:"https://www.meme-arsenal.com/memes/2d9182fabc8b91e05f023061e63c3e40.jpg",
-      //"https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg",
-    ),
-    new MediaItem(
-      id: "https://t2.akniga.club/b/14223/eBD7gVXw775lOeP-1xmvsdZzaC3HWqHuGCK5oaI1DUI,/02.%20%D0%A1%D0%B0%D0%BF%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9%20%D0%90%D0%BD%D0%B4%D0%B6%D0%B5%D0%B9%20-%20%D0%91%D0%B0%D1%88%D0%BD%D1%8F%20%D0%9B%D0%B0%D1%81%D1%82%D0%BE%D1%87%D0%BA%D0%B8.mp3",
-      album: "Witcher",
-      title: "Zirael-2",
-      artist: "Sapkovsky",
-      duration: 2856950,
-      artUri:
-      "https://www.meme-arsenal.com/memes/2d9182fabc8b91e05f023061e63c3e40.jpg",
-    ),
-    new MediaItem(
-      id: "https://t2.akniga.club/b/14223/eBD7gVXw775lOeP-1xmvsdZzaC3HWqHuGCK5oaI1DUI,/01.%20%D0%A1%D0%B0%D0%BF%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9%20%D0%90%D0%BD%D0%B4%D0%B6%D0%B5%D0%B9%20-%20%D0%91%D0%B0%D1%88%D0%BD%D1%8F%20%D0%9B%D0%B0%D1%81%D1%82%D0%BE%D1%87%D0%BA%D0%B8.mp3",
-      album: "Witcher",
-      title: "Zirael",
-      artist: "Sapkovsky",
-      duration: 2856950,
-      artUri:
-      "https://www.meme-arsenal.com/memes/2d9182fabc8b91e05f023061e63c3e40.jpg",
-    ),
-  ];
+      artUri:"https://media.pitchfork.com/photos/5929bca413d197565213b382/1:1/w_600/124fe55e.jpg",
+    )
+      ];
   int _queueIndex = -1;
   AudioPlayer audioPlayer = new AudioPlayer();
   Completer _completer = Completer();
@@ -256,17 +237,17 @@ class AudioPlayerTask extends BackgroundAudioTask {
   List<MediaControl> getControls(BasicPlaybackState state) {
     if (_playing) {
       return [
-        skipToPreviousControl,
+        //skipToPreviousControl,
         pauseControl,
         stopControl,
-        skipToNextControl,
+        //skipToNextControl,
       ];
     } else {
       return [
-        skipToPreviousControl,
+        //skipToPreviousControl,
         playControl,
         stopControl,
-        skipToNextControl,
+        //skipToNextControl,
       ];
     }
   }

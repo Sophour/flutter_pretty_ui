@@ -54,8 +54,9 @@ Widget createSectionHeader(BuildContext context, String headerTitle, {onViewMore
 
 Widget createCard(BuildContext context, String imageAssetUrl){
   //TODO replace all constants with variables passed in an object
-  //TODO wrap it with GestureDetector?
-  return Container(
+  return GestureDetector(
+    onTap:  ()=>Navigator.push(context, MaterialPageRoute(builder: (context) => PlayerPage())),
+      child: Container(
     ///check orientation
     width: MediaQuery.of(context).orientation== Orientation.portrait?
     ///then set the card's width limits (relative or absolute max)
@@ -136,5 +137,5 @@ Widget createCard(BuildContext context, String imageAssetUrl){
 
       ],
     ),
-  );
+  ));
 }

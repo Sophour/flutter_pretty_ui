@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const LargeTextSize = 26.0;
+const LargeTextSize = 34.0;
 const MediumTextSize = 17.0;
 const MinimalTextSize = 11.0;
 
@@ -45,5 +45,12 @@ const InfoTextStyle = TextStyle(
   fontFamily: FontNameDefault,
   fontWeight: FontWeight.w300,
   fontSize: 13.0,
+  color: Colors.white,
+);
+
+const Heading1TextStyle = TextStyle(
+  fontFamily: FontNameDefault,
+  fontWeight: FontWeight.w300,
+  fontSize: LargeTextSize,
   color: Colors.white,
 );
