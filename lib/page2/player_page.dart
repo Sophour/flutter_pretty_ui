@@ -1,6 +1,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:meditivitytest2/services/background_audio_service/background_audio_task.dart';
 
 import 'exercise_timer.dart';
 
@@ -34,21 +35,21 @@ class _PlayerPageDefaultState extends State<PlayerPageWidget> with WidgetsBindin
   Duration timePassed;
   Function myTimerCallback;
 
-//  @override
-//  void initState( ) {
-//    super.initState();
-//    WidgetsBinding.instance.addObserver(this);
-//    connect();
-//
-//
-//  }
-//
-//  @override
-//  void dispose() {
-//    disconnect();
-//    WidgetsBinding.instance.removeObserver(this);
-//    super.dispose();
-//  }
+  @override
+  void initState( ) {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    connect();
+
+
+  }
+
+  @override
+  void dispose() {
+    disconnect();
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
 
   @override
@@ -70,21 +71,21 @@ class _PlayerPageDefaultState extends State<PlayerPageWidget> with WidgetsBindin
             IconButton(
               icon: Icon(Icons.pause),
               onPressed: (){
-                //AudioService.pause();
+                AudioService.pause();
               },
             ),
             IconButton(
               icon: Icon(Icons.volume_up),
-//              onPressed: (){
-//                AudioService.start(
-//                  backgroundTaskEntrypoint: audioPlayerTaskEntrypoint,
-//                  androidNotificationChannelName: 'Audio Service Demo',
-//                  notificationColor: 0xff413c69,
-//                  androidNotificationIcon: 'mipmap/ic_launcher',
-//
-//                  enableQueue: true,
-//                );
-//              },
+              onPressed: (){
+                AudioService.start(
+                  backgroundTaskEntrypoint: audioPlayerTaskEntrypoint,
+                  androidNotificationChannelName: 'Audio Service Demo',
+                  notificationColor: 0xff413c69,
+                  androidNotificationIcon: 'mipmap/ic_launcher',
+
+                  enableQueue: true,
+                );
+              },
 
             ),
             IconButton(
@@ -112,8 +113,6 @@ class _PlayerPageDefaultState extends State<PlayerPageWidget> with WidgetsBindin
             child: Text('Title Title'),
           ),
           Container(
-            //TODO contdown with this lesson: https://steemit.com/utopian-io/@tensor/building-a-countdown-timer-with-a-custom-painter-and-animations-in-dart-s-flutter-framework
-          //color: Colors.orange,
             child: SizedBox(
             width: 230,
             height: 230,
@@ -143,18 +142,18 @@ class _PlayerPageDefaultState extends State<PlayerPageWidget> with WidgetsBindin
     );
   }
 
-//  @override
-//  void didChangeAppLifecycleState(AppLifecycleState state) {
-//    switch (state) {
-//      case AppLifecycleState.resumed:
-//        connect();
-//        break;
-//      case AppLifecycleState.paused:
-//        disconnect();
-//        break;
-//      default:
-//        break;
-//    }
-//  }
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        connect();
+        break;
+      case AppLifecycleState.paused:
+        disconnect();
+        break;
+      default:
+        break;
+    }
+  }
 }
 
